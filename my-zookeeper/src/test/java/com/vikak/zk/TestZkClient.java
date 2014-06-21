@@ -21,6 +21,10 @@ public class TestZkClient {
 			zk.create(grpName, CreateMode.EPHEMERAL);
 			List<String> list = zk.list();
 			Assert.assertTrue(list.contains(grpName), list.toString());
+
+			zk.delete(grpName);
+			list = zk.list();
+			Assert.assertFalse(list.contains(grpName), list.toString());
 		} finally {
 			zk.close();
 		}
@@ -38,7 +42,9 @@ public class TestZkClient {
 			zk.join(grpName, "member-1");
 			Assert.assertTrue(zk.list(grpName).contains("member-1"));
 
-			
+			zk.delete(grpName);
+			list = zk.list();
+			Assert.assertFalse(list.contains(grpName), list.toString());
 		} finally {
 			zk.close();
 		}

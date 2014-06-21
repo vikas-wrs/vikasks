@@ -55,7 +55,8 @@ public class ZkClientImpl implements ZkClient {
 	}
 
 	@Override
-	public List<String> list(String groupName) throws KeeperException, InterruptedException {
+	public List<String> list(String groupName) throws KeeperException,
+	InterruptedException {
 		String path = "/" + groupName;
 		return zk.getChildren(path, false);
 	}
@@ -65,10 +66,21 @@ public class ZkClientImpl implements ZkClient {
 		String path = "/";
 		return zk.getChildren(path, false);
 	}
-	
+
 	@Override
 	public void close() throws InterruptedException {
 		zk.close();
+	}
+
+	@Override
+	public void delete(String groupName) throws KeeperException,
+	InterruptedException {
+		String path = "/" + groupName;
+		List<String> children = zk.getChildren(path, false);
+		for (String child : children) {
+			zk.delete(path + "/" + child, -1);
+		}
+		zk.delete(path, -1);
 	}
 
 	public static void main(String[] args) throws Exception {

@@ -21,4 +21,6 @@ public interface ZkClient {
 
 	List<String> list() throws KeeperException, InterruptedException;
 
+	void delete(String groupName) throws KeeperException, InterruptedException;
+
 }
